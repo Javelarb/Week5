@@ -1,0 +1,82 @@
+---
+title: "Week5"
+author: "Julio Avelar-Barragan"
+date: "2/4/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+var1 <- 7
+
+#Run together.
+pdf(file = "Plot1.pdf", pointsize = 18, width = 10, height = 10)
+plot(sin, xlab=expression(sigma[italic("s")]^2), ylab = expression(tau), col="red", lty = 4, lwd = 3, main=bquote(Gamma~"="~.(var1)))
+text(x=.1, y=.4, bquote(Gamma~"="~.(var1)))
+dev.off()
+```
+
+```{r}
+#Run together.
+tiff(file = "Plot1.tiff", pointsize = 18, width = 10, height = 10, res = 300, units = "in")
+plot(sin, xlab=expression(sigma[italic("s")]^2), ylab = expression(tau), col="red", lty = 4, lwd = 3, main=bquote(Gamma~"="~.(var1)), xaxt="n")
+text(x=.1, y=.4, bquote(Gamma~"="~.(var1)))
+axis(1,cex.axis=0.5)
+dev.off()
+```
+
+```{r}
+#Run together.
+png(file = "Plot1.png", pointsize = 18, width = 10, height = 10, res = 72, units = "in")
+plot(sin, xlab=expression(sigma[italic("s")]^2), ylab = expression(tau), col="red", lty = 4, lwd = 3, main=bquote(Gamma~"="~.(var1)))
+text(x=.1, y=.4, bquote(Gamma~"="~.(var1)))
+dev.off()
+```
+
+```{r}
+#Run together.
+png(file = "Plot2.png", pointsize = 18, width = 10, height = 10, res = 300, units = "in")
+plot(sin, xlab=expression(sigma[italic("s")]^2), ylab = expression(tau), col="red", lty = 4, lwd = 3, main=bquote(Gamma~"="~.(var1)))
+text(x=.1, y=.4, bquote(Gamma~"="~.(var1)))
+dev.off()
+```
+
+```{r}
+library(ggplot2)
+library(ggpubr)
+
+data(mtcars)
+p <- ggplot(mtcars) +
+  aes(x=cyl, y=mpg) +
+  theme_classic(18) +
+  geom_point(color="red", size=3, shape=4) +
+  annotate("text", x=5, y=20, label = deparse(bquote(Gamma~"="~.(var1))), parse=T) +
+  labs(title = bquote(Gamma~"="~.(var1)), x = expression(sigma[italic("s")]^2), y = expression(tau))
+p
+```
+
+```{r}
+p2 <- ggplot(mtcars) +
+  aes(x=cyl, y=mpg) +
+  theme_classic(18) +
+  geom_point(color="blue", size=3, alpha = 0.5) +
+  annotate("text", x=5, y=20, label = deparse(bquote(Gamma~"="~.(var1))), parse=T) +
+  labs(title = bquote(Gamma~"="~.(var1)), x = expression(sigma[italic("s")]^2), y = expression(tau)) +
+  theme(axis.text.x = element_text(size = 9)) #Half size
+p2
+```
+
+```{r}
+ggarrange(p, p2)
+```
+
+```{r}
+p3 <- ggarrange(p, p2, p2, p, ncol = 2, nrow = 2)
+ggsave("ggplot.pdf", plot = p3, device = "pdf", width = 10, height = 10, units = "in")
+ggsave("ggplot.tiff", plot = p3, device = "tiff", width = 10, height = 10, units = "in")
+ggsave("ggplot72.png", plot = p3, device = "png", width = 10, height = 10, units = "in", dpi = 72)
+ggsave("ggplot300.png", plot = p3, device = "png", width = 10, height = 10, units = "in", dpi = 300)
+```
